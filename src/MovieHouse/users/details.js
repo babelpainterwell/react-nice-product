@@ -11,6 +11,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { IoPersonAddOutline } from "react-icons/io5";
 import { RiMovie2Line } from "react-icons/ri";
 import { GrUpdate } from "react-icons/gr";
+import { MdOutlineMoreHoriz } from "react-icons/md";
 
 function UserDetails() {
   const [user, setUser] = useState(null);
@@ -60,10 +61,10 @@ function UserDetails() {
   };
 
   useEffect(() => {
-    if (!currentUser) {
-      navigate("/signin");
-      return;
-    }
+    // if (!currentUser) {
+    //   navigate("/signin");
+    //   return;
+    // }
     const fetchData = async () => {
       try {
         await fetchUser();
@@ -77,7 +78,7 @@ function UserDetails() {
     };
 
     fetchData();
-  }, []);
+  }, [userId]);
 
   const updateUser = async () => {
     // Update the user state with the new values
@@ -152,8 +153,9 @@ function UserDetails() {
             alert("Please sign in to follow this user.");
             navigate("/signin");
           }}
-          className="btn btn-warning float-end"
+          className="btn btn-info float-end text-white "
         >
+          <RiUserFollowLine size={18} className="me-2" />
           Follow
         </button>
       )}
@@ -241,11 +243,20 @@ function UserDetails() {
                   >
                     <Link
                       to={`/details/${like.movieId}`}
-                      className="text-decoration-none"
+                      className="text-decoration-none text-black "
                     >
+                      <RiMovie2Line
+                        style={{ cursor: "pointer" }}
+                        size="1.2em"
+                        className="me-3"
+                      />
                       <strong>{like.movieTitle}</strong>
                     </Link>
-                    <RiMovie2Line style={{ cursor: "pointer" }} size="1.2em" />
+                    <MdOutlineMoreHoriz
+                      className="text-info me-2"
+                      style={{ cursor: "pointer" }}
+                      size="1.2em"
+                    />
                   </li>
                 ))}
               </ul>
@@ -267,9 +278,14 @@ function UserDetails() {
                       to={`/profile/${follows.follower._id}`}
                       className="text-decoration-none text-black"
                     >
+                      <IoPersonAddOutline
+                        className="text-black me-3"
+                        style={{ cursor: "pointer" }}
+                        size="1.2em"
+                      />
                       <strong>{follows.follower.username}</strong>
                     </Link>
-                    <IoPersonAddOutline
+                    <MdOutlineMoreHoriz
                       className="text-info me-2"
                       style={{ cursor: "pointer" }}
                       size="1.2em"
@@ -296,9 +312,14 @@ function UserDetails() {
                       to={`/profile/${follows.followed._id}`}
                       className="text-decoration-none text-black"
                     >
+                      <IoPersonAddOutline
+                        className="text-black me-3"
+                        style={{ cursor: "pointer" }}
+                        size="1.2em"
+                      />
                       <strong>{follows.followed.username}</strong>
                     </Link>
-                    <IoPersonAddOutline
+                    <MdOutlineMoreHoriz
                       className="text-info me-2"
                       style={{ cursor: "pointer" }}
                       size="1.2em"

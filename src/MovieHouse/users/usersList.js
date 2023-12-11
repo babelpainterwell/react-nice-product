@@ -1,6 +1,8 @@
 import * as client from "./client";
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
+import { MdDeleteOutline } from "react-icons/md";
+import { GoPerson } from "react-icons/go";
 
 function UserList() {
   const [users, setUsers] = useState([]);
@@ -58,29 +60,48 @@ function UserList() {
   }
 
   return (
-    <div className="container">
-      <h2>Users ({users?.length})</h2>
+    <div
+      className="container"
+      style={{
+        padding: "20px",
+        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+        borderRadius: "8px",
+      }}
+    >
+      <h2 style={{ margin: "20px 0", textAlign: "center" }}>
+        Users Management System ({users?.length})
+      </h2>
       <div className="list-group mt-3">
         {users.map((user) => (
           <div
             key={user._id}
             className="list-group-item d-flex justify-content-between align-items-center"
+            style={{ padding: "10px", borderBottom: "1px solid #ddd" }}
           >
             <Link
-              to={`/users/${user._id}`}
+              to={`/profile/${user._id}`}
               className="flex-grow-1 mr-2"
-              style={{ textDecoration: "none", color: "black" }} // Inline style as a JavaScript object
+              style={{
+                textDecoration: "none",
+                color: "black",
+                fontWeight: "500",
+              }}
             >
-              {user.username} - {user.role}
+              <GoPerson
+                className="text-black me-3"
+                style={{ cursor: "pointer" }}
+                size="1.2em"
+              />
+              <strong>
+                {user.username} - <span className="text-info">{user.role}</span>
+              </strong>
             </Link>
 
             {user.role !== "ADMIN" && (
-              <button
-                className="btn btn-danger btn-sm"
-                onClick={() => handleDelete(user._id)} // Attach event handler
-              >
-                Delete
-              </button>
+              <MdDeleteOutline
+                onClick={() => handleDelete(user._id)}
+                style={{ cursor: "pointer", color: "red", fontSize: "1.5em" }} // Styling for the icon
+              />
             )}
           </div>
         ))}
