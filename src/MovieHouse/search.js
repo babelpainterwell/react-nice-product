@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-// import { API_KEY } from "./client";
 import * as client from "./client";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import MovieCard from "./MovieCard";
+import { FaSearch } from "react-icons/fa";
 
 function Search() {
   const { search } = useParams();
@@ -27,31 +27,43 @@ function Search() {
 
   return (
     <div className="container">
-      <h1>Search</h1>
-      <button
-        onClick={() => navigate(`/search/${searchTerm}`)}
-        className="btn btn-primary float-end"
-      >
-        Search
-      </button>
-      <input
-        type="text"
-        className="form-control w-75"
-        placeholder="Type the key term of the movie you want to search"
-        value={searchTerm}
-        onChange={(event) => {
-          setSearchTerm(event.target.value);
-        }}
-      />
-      <h2 className="mt-5">Results</h2>
-      {/* <pre>{JSON.stringify(results, null, 2)}</pre> */}
+      {/* Header */}
+      <div className="py-4">
+        <h1 className="display-4 text-center">Movie Search</h1>
+      </div>
+
+      {/* Search input and button */}
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <input
+          type="text"
+          className="form-control form-control-lg"
+          placeholder="Type the key term of the movie you want to search"
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+        />
+        <button
+          onClick={() => navigate(`/search/${searchTerm}`)}
+          className="btn btn-info btn-lg ms-3 text-white d-flex align-items-center"
+        >
+          <FaSearch className="me-2" />
+          Search
+        </button>
+      </div>
+
+      {/* Results Section */}
+      <h2 className="mb-3">Results</h2>
       <div className="row">
-        {results &&
+        {results.length > 0 ? (
           results.map((movie) => (
-            <div key={movie.id} className="col-md-3 mb-3">
+            <div key={movie.id} className="col-md-3 mb-4">
               <MovieCard movie={movie} />
             </div>
-          ))}
+          ))
+        ) : (
+          <p className="text-muted">
+            No movies found. Please try a different search.
+          </p>
+        )}
       </div>
     </div>
   );

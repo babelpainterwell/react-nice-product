@@ -6,6 +6,11 @@ import * as likesClient from "../likes/client";
 import * as followsClient from "../follows/client";
 import * as reviewClient from "../reviews/client";
 import moment from "moment";
+import { RiUserFollowLine } from "react-icons/ri";
+import { MdDeleteOutline } from "react-icons/md";
+import { IoPersonAddOutline } from "react-icons/io5";
+import { RiMovie2Line } from "react-icons/ri";
+import { GrUpdate } from "react-icons/gr";
 
 function UserDetails() {
   const [user, setUser] = useState(null);
@@ -44,13 +49,6 @@ function UserDetails() {
     setFollowing(userFollowing);
   };
 
-  // const fetchReviews = async () => {
-  //   if (!currentUser) {
-  //     return;
-  //   }
-  //   const userReviews = await reviewClient.findReviewsByUserId(currentUser._id);
-  //   setReviews(userReviews);
-  // };
   const fetchReviews = async () => {
     try {
       const userReviews = await reviewClient.findReviewsByUserId(userId);
@@ -62,6 +60,10 @@ function UserDetails() {
   };
 
   useEffect(() => {
+    if (!currentUser) {
+      navigate("/signin");
+      return;
+    }
     const fetchData = async () => {
       try {
         await fetchUser();
@@ -75,7 +77,7 @@ function UserDetails() {
     };
 
     fetchData();
-  }, [userId]);
+  }, []);
 
   const updateUser = async () => {
     // Update the user state with the new values
@@ -88,7 +90,7 @@ function UserDetails() {
 
     // Update the user state
     setUser(updatedUser);
-    const status = await client.updateUser(userId, user);
+    const status = await client.updateUser(userId, updatedUser);
   };
   const followUser = async () => {
     const status = await followsClient.userFollowsUser(userId);
@@ -110,12 +112,14 @@ function UserDetails() {
   const isViewingOwnProfile = currentUser && currentUser._id === userId;
 
   const handleDeleteReview = async (reviewId) => {
-    try {
-      await reviewClient.deleteReview(reviewId);
-      await fetchReviews(); // Re-fetch reviews after deleting
-    } catch (error) {
-      console.error("Error deleting review:", error);
-      // Handle the error appropriately, e.g., show an error message to the user
+    if (window.confirm("Are you sure you want to delete this review?")) {
+      try {
+        await reviewClient.deleteReview(reviewId);
+        await fetchReviews(); // Re-fetch reviews after deleting
+      } catch (error) {
+        console.error("Error deleting review:", error);
+        // Handle the error appropriately, e.g., show an error message to the user
+      }
     }
   };
 
@@ -134,8 +138,9 @@ function UserDetails() {
             ) : (
               <button
                 onClick={followUser}
-                className="btn btn-warning float-end"
+                className="btn btn-info float-end text-white"
               >
+                <RiUserFollowLine size={18} className="me-2" />
                 Follow
               </button>
             )}
@@ -152,127 +157,197 @@ function UserDetails() {
           Follow
         </button>
       )}
-      <h2>User Details</h2>
+      <h2>User Profile</h2>
+      <hr />
       {user && (
         <div>
-          <p>Username: {user.username}</p>
-          <div>
-            <p>Role: {user.role}</p>
-            {/* {user.role === "ADMIN" && (
-            <Link to="/users" className="btn btn-warning">
-              Users
-            </Link>
-          )} */}
+          <p>
+            <strong>Username:</strong> {user.username}
+          </p>
+          <div className="d-flex justify-content-between align-items-center">
+            <p>
+              <strong>Role:</strong> {user.role}
+            </p>
             {user.role === "DIRECTOR" &&
               (isViewingOwnProfile ? (
-                <Link to={`/movies`} className="btn btn-warning">
+                <Link to={`/movies`} className="btn btn-outline-info">
                   View My Published Movies
                 </Link>
               ) : (
-                <Link to={`/movies/${userId}`} className="btn btn-warning">
+                <Link to={`/movies/${userId}`} className="btn btn-outline-info">
                   View Director's Movies
                 </Link>
               ))}
           </div>
           {isViewingOwnProfile && (
-            <>
-              <p>Email: {user.email}</p>
-              <input
-                type="email"
-                className="form-control"
-                value={editEmail}
-                onChange={(e) => setEditEmail(e.target.value)}
-              />
-              <p>First Name: {user.firstName}</p>
-              <input
-                type="text"
-                className="form-control"
-                value={editFirstName}
-                onChange={(e) => setEditFirstName(e.target.value)}
-              />
-              <p>Last Name: {user.lastName}</p>
-              <input
-                type="text"
-                className="form-control"
-                value={editLastName}
-                onChange={(e) => setEditLastName(e.target.value)}
-              />
-              <button onClick={updateUser} className="btn btn-primary">
-                Update
-              </button>
-            </>
+            <div style={{ marginBottom: "50px" }}>
+              <div className="mb-3">
+                <label htmlFor="email" className="form-label">
+                  <strong>Email:</strong>
+                </label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  value={editEmail}
+                  onChange={(e) => setEditEmail(e.target.value)}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="firstName" className="form-label">
+                  <strong>First Name:</strong>
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="firstName"
+                  value={editFirstName}
+                  onChange={(e) => setEditFirstName(e.target.value)}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="lastName" className="form-label">
+                  <strong>Last Name:</strong>
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="lastName"
+                  value={editLastName}
+                  onChange={(e) => setEditLastName(e.target.value)}
+                />
+              </div>
+              <div className="text-end mt-4">
+                <button
+                  onClick={updateUser}
+                  className="btn btn-info text-white"
+                >
+                  <GrUpdate size={15} className="me-2" />
+                  Update
+                </button>
+              </div>
+            </div>
           )}
 
-          <h3>Favorites</h3>
-          <ul className="list-group">
-            {likes &&
-              likes.map((like, index) => (
-                <li key={index} className="list-group-item">
-                  <Link to={`/details/${like.movieId}`}>{like.movieTitle}</Link>
-                </li>
-              ))}
-          </ul>
-          <h3>Followers</h3>
-          <div className="list-group">
-            {followers &&
-              followers.map((follows, index) => (
-                <Link
-                  key={index}
-                  className="list-group-item"
-                  to={`/profile/${follows.follower._id}`}
-                >
-                  {follows.follower.username}
-                  {/* {follows.follower._id} */}
-                </Link>
-              ))}
-          </div>
-          <h3>Following</h3>
-          <div className="list-group">
-            {following &&
-              following.map((follows, index) => (
-                <Link
-                  key={index}
-                  className="list-group-item"
-                  to={`/profile/${follows.followed._id}`}
-                >
-                  {follows.followed.username}
-                  {/* {follows.followed._id} */}
-                </Link>
-              ))}
-          </div>
-          <h3>Reviews</h3>
-          {reviews.length > 0 ? (
-            <ul className="list-group">
-              {reviews.map((review) => (
-                <li key={review._id} className="list-group-item">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <Link
-                        to={`/details/${review.movieId}`}
-                        className="text-decoration-none"
-                      >
-                        <span className="fw-bold">{review.movieTitle}</span>{" "}
-                      </Link>
-                      <small className="text-muted">
-                        {moment(review.createdAt).format("MMMM Do, YYYY")}
-                      </small>
-                    </div>
-                    {isViewingOwnProfile && (
-                      <button
-                        onClick={() => handleDeleteReview(review._id)}
-                        className="btn btn-danger btn-sm"
-                      >
-                        Delete
-                      </button>
-                    )}
+          <hr />
+          <div>
+            <h3 className="mt-5 mb-3 text-info">Favorite Movies</h3>
+            {likes && likes.length > 0 ? (
+              <ul className="list-group mb-4">
+                {likes.map((like, index) => (
+                  <li
+                    key={index}
+                    className="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    <Link
+                      to={`/details/${like.movieId}`}
+                      className="text-decoration-none"
+                    >
+                      <strong>{like.movieTitle}</strong>
+                    </Link>
+                    <RiMovie2Line style={{ cursor: "pointer" }} size="1.2em" />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-muted">No favorites added yet.</p>
+            )}
+
+            <hr className="mt-2" />
+
+            <h3 className="mt-4 mb-3 text-info">{user.username}'s Followers</h3>
+            {followers && followers.length > 0 ? (
+              <div className="list-group mb-4">
+                {followers.map((follows, index) => (
+                  <div
+                    key={index}
+                    className="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    <Link
+                      to={`/profile/${follows.follower._id}`}
+                      className="text-decoration-none text-black"
+                    >
+                      <strong>{follows.follower.username}</strong>
+                    </Link>
+                    <IoPersonAddOutline
+                      className="text-info me-2"
+                      style={{ cursor: "pointer" }}
+                      size="1.2em"
+                    />
                   </div>
-                  <p>{review.content}</p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No reviews yet.</p>
-          )}
+                ))}
+              </div>
+            ) : (
+              <p className="text-muted">No followers yet.</p>
+            )}
+          </div>
+
+          <hr className="mt-2" />
+          <div>
+            <h3 className="mt-4 mb-3 text-info">Following</h3>
+            {following && following.length > 0 ? (
+              <div className="list-group mb-4">
+                {following.map((follows, index) => (
+                  <div
+                    key={index}
+                    className="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    <Link
+                      to={`/profile/${follows.followed._id}`}
+                      className="text-decoration-none text-black"
+                    >
+                      <strong>{follows.followed.username}</strong>
+                    </Link>
+                    <IoPersonAddOutline
+                      className="text-info me-2"
+                      style={{ cursor: "pointer" }}
+                      size="1.2em"
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-muted">No following yet.</p>
+            )}
+
+            <hr className="mt-2" />
+
+            <h3 className="mt-4 mb-3 text-info">Reviews</h3>
+            {reviews.length > 0 ? (
+              <ul className="list-group">
+                {reviews.map((review) => (
+                  <li key={review._id} className="list-group-item">
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div>
+                        <Link
+                          to={`/details/${review.movieId}`}
+                          className="text-decoration-none"
+                        >
+                          <span className="fw-bold">{review.movieTitle}</span>{" "}
+                        </Link>
+                        <small className="text-muted ms-2">
+                          {moment(review.createdAt).format("MMMM Do, YYYY")}
+                        </small>
+                      </div>
+                      {isViewingOwnProfile && (
+                        <MdDeleteOutline
+                          onClick={() => handleDeleteReview(review._id)}
+                          style={{
+                            cursor: "pointer",
+                            color: "red",
+                          }}
+                          size="1.5em"
+                        />
+                      )}
+                    </div>
+                    <p>{review.content}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-muted">No reviews yet.</p>
+            )}
+          </div>
         </div>
       )}
     </div>

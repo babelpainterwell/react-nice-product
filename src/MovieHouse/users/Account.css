@@ -1,0 +1,74 @@
+.account-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+  background: #f4f4f4; /* Light background */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.account-title {
+  font-family: "Arial", sans-serif;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.account-details {
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-top: 20px;
+}
+
+.form-input {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  color: black;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+}
+
+.float-right {
+  float: right;
+}

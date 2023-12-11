@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import * as likesClient from "../likes/client";
 import * as reviewClient from "../reviews/client";
 import { GrLike } from "react-icons/gr";
+import { FaCalendarAlt, FaStar, FaLanguage } from "react-icons/fa";
+import { IoIosShareAlt } from "react-icons/io";
 
 function MovieDetails() {
   const { currentUser } = useSelector((state) => state.userReducer);
@@ -99,27 +101,26 @@ function MovieDetails() {
 
   const renderLikeButton = () => {
     if (currentUser) {
-      return alreadyLiked() ? (
-        <button onClick={unlike} className="btn btn-secondary">
-          Unlike
-        </button>
-      ) : (
-        <button onClick={like} className="btn btn-primary">
-          Like
-        </button>
+      const likeIconStyle = alreadyLiked()
+        ? { color: "red", cursor: "pointer", size: "4em" }
+        : { cursor: "pointer", size: "4em" };
+
+      return (
+        <div onClick={alreadyLiked() ? unlike : like}>
+          <GrLike style={likeIconStyle} />
+        </div>
       );
     } else {
       // Correctly return the button in the else block
       return (
-        <button
+        <div
           onClick={() => {
             alert("Please sign in to like the movie.");
             navigate("/signin");
           }}
-          className="btn btn-primary"
         >
-          Like
-        </button>
+          <GrLike style={{ cursor: "pointer", size: "4em" }} />
+        </div>
       );
     }
   };
@@ -183,19 +184,33 @@ function MovieDetails() {
             alt={movieDetails.original_title}
             className="img-fluid rounded shadow-lg"
           />
-          <div className="mt-3">
-            <p className="text-muted">
-              <GrLike /> {usersWhoLiked.length} likes
-            </p>
+        </div>
+        <div className="col-lg-6">
+          <div className="d-flex justify-content-between align-items-center w-75">
+            <h2 className="mb-3">{movieDetails.title}</h2>
+            <div className="d-flex ms-4 align-items-center text-muted mb-3">
+              {renderLikeButton()}
+              <span className="ms-2">{usersWhoLiked.length}</span>
+            </div>
+          </div>
+
+          <div className="mt-1">
             {usersWhoLiked.length > 0 && (
               <p className="text-muted">
                 Liked by:{" "}
                 {usersWhoLiked.map((user) => (
-                  <span key={user.user._id} className="badge me-1">
-                    {/* {user.username} */}
+                  <span
+                    key={user.user._id}
+                    className="badge me-1 ms-1"
+                    style={{
+                      padding: "10px 15px",
+                      fontSize: "1em",
+                      backgroundColor: "#e9ecef",
+                    }}
+                  >
                     <a
                       href={`/#/profile/${user.user._id}`}
-                      className="text-decoration-none text-black"
+                      className="text-decoration-none text-info" // Changed text color to info
                     >
                       {user.user.username}
                     </a>
@@ -204,38 +219,55 @@ function MovieDetails() {
               </p>
             )}
           </div>
-        </div>
-        <div className="col-lg-6">
-          <h2 className="mb-3">{movieDetails.title}</h2>
-          <p className="text-muted">{movieDetails.overview}</p>
+
+          <strong className="text-muted">{movieDetails.overview}</strong>
           <div className="mt-5">
-            <div className="mb-3">
-              <span className="badge bg-primary me-2 fs-5">Release Date</span>
-              <span className="text-secondary fs-5">
-                {movieDetails.release_date}
+            {/* Release Date */}
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <div className="d-flex align-items-center text-info">
+                <FaCalendarAlt className="me-2" />
+                <strong>Release Date</strong>
+              </div>
+              <span className="text-end fw-bold">
+                {movieDetails.release_date ? movieDetails.release_date : "N/A"}
               </span>
             </div>
-            <div className="mb-3">
-              <span className="badge bg-success me-2 fs-5">Rating</span>
-              <span className="text-secondary fs-5">
-                {movieDetails.vote_average} / 10
+
+            {/* Rating */}
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <div className="d-flex align-items-center text-info">
+                <FaStar className="me-2" />
+                <strong>Rating</strong>
+              </div>
+              <span className="text-end fw-bold">
+                {movieDetails.vote_average
+                  ? `${movieDetails.vote_average} / 10`
+                  : "Rating not available"}
               </span>
             </div>
-            <div className="mb-3">
-              <span className="badge bg-info me-2 fs-5">Original Language</span>
-              <span className="text-secondary fs-5">
-                {movieDetails.original_language}
+
+            {/* Original Language */}
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <div className="d-flex align-items-center text-info">
+                <FaLanguage className="me-2" />
+                <strong>Original Language</strong>
+              </div>
+              <span className="text-end fw-bold">
+                {movieDetails.original_language
+                  ? movieDetails.original_language.toUpperCase()
+                  : "N/A"}
               </span>
             </div>
           </div>
         </div>
       </div>
-      {renderLikeButton()}
+
       <section className="mt-4">
         <ReviewList reviews={reviews} />
       </section>
-      <div className="mt-4">
-        <h3>Add a Review</h3>
+
+      <div className="mt-5">
+        <h3 className="text-info">Share a Review</h3>
         <form onSubmit={submitReview}>
           <textarea
             className="form-control"
@@ -244,8 +276,12 @@ function MovieDetails() {
             placeholder="Write your review here"
             rows="3"
           ></textarea>
-          <button type="submit" className="btn btn-primary mt-2">
-            Submit Review
+          <button
+            type="submit"
+            className="btn btn-outline-info mt-3 mb-5"
+            style={{ float: "right" }}
+          >
+            <IoIosShareAlt /> Share
           </button>
         </form>
       </div>

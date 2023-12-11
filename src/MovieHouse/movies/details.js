@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import * as movieClient from "./client";
+import { FaCalendarAlt, FaLanguage } from "react-icons/fa";
+import { FiEdit } from "react-icons/fi";
+import { MdDeleteOutline } from "react-icons/md";
 
 function PublishedMovieDetails() {
   const [movie, setMovie] = useState(null);
@@ -22,12 +25,6 @@ function PublishedMovieDetails() {
   };
 
   useEffect(() => {
-    // if (!currentUser) {
-    //   alert("You must be logged in to view this page");
-    //   navigate("/signin");
-    // } else {
-    //   fetchMovie();
-    // }
     fetchMovie();
   }, [movieId]);
 
@@ -91,7 +88,7 @@ function PublishedMovieDetails() {
   return (
     <div className="container mb-5 mt-5">
       <div className="row">
-        <div className="col-lg-6 mb-4">
+        <div className="col-md-4 col-lg-3 mb-4">
           <div>
             <img
               src={
@@ -105,7 +102,7 @@ function PublishedMovieDetails() {
           </div>
         </div>
 
-        <div className="col-lg-6">
+        <div className="col-md-8 col-lg-9">
           {isEditMode ? (
             <>
               <input
@@ -137,33 +134,55 @@ function PublishedMovieDetails() {
               </button>
             </>
           ) : (
-            <>
-              <h2 className="mb-3">{movie.original_title}</h2>
-              <p className="text-muted">{movie.overview}</p>
-              <div className="mt-5">
-                <div className="mb-3">
-                  <span className="badge bg-primary me-2 fs-5">
-                    Release Date
-                  </span>
-                  <span className="text-secondary fs-5">
-                    {movie.release_date}
+            <div className="card ms-5">
+              <div className="card-body">
+                <h2 className="card-title mb-4">{movie.original_title}</h2>
+                <strong className="card-text text-muted mb-4">
+                  {movie.overview}
+                </strong>
+
+                <div className="d-flex justify-content-between align-items-center mb-3 mt-5">
+                  <div className="d-flex align-items-center text-info">
+                    <FaCalendarAlt className="me-2" />
+                    <strong>Release Date</strong>
+                  </div>
+                  <span className="text-end fw-bold">
+                    {movie.release_date ? movie.release_date : "N/A"}
                   </span>
                 </div>
+
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <div className="d-flex align-items-center text-info">
+                    <FaLanguage className="me-2" />
+                    <strong>Original Language</strong>
+                  </div>
+                  <span className="text-end fw-bold">
+                    {movie.original_language
+                      ? movie.original_language.toUpperCase()
+                      : "N/A"}
+                  </span>
+                </div>
+
+                {isViewingOwnMovie && (
+                  <div className="text-end">
+                    <button
+                      onClick={handleEdit}
+                      className="btn btn-outline-secondary me-2"
+                    >
+                      <FiEdit className="me-2" size={15} />
+                      Edit
+                    </button>
+                    <button
+                      onClick={handleDelete}
+                      className="btn btn-outline-danger"
+                    >
+                      <MdDeleteOutline className="me-2" size={19} />
+                      Delete
+                    </button>
+                  </div>
+                )}
               </div>
-              {isViewingOwnMovie && (
-                <div>
-                  <button
-                    onClick={handleEdit}
-                    className="btn btn-secondary me-2"
-                  >
-                    Edit
-                  </button>
-                  <button onClick={handleDelete} className="btn btn-danger">
-                    Delete
-                  </button>
-                </div>
-              )}
-            </>
+            </div>
           )}
         </div>
       </div>

@@ -25,8 +25,8 @@ const NavBar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
       <div className="container-fluid">
-        <NavLink className="navbar-brand" to="/">
-          MovieHouse
+        <NavLink className="navbar-brand text-bold text-info" to="/">
+          <strong>MovieHouse</strong>
         </NavLink>
         <button
           className="navbar-toggler"
@@ -41,20 +41,20 @@ const NavBar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
-            <li className="nav-item">
+            <li className="nav-item ms-4 me-2">
               <NavLink className="nav-link" aria-current="page" to="/">
-                Home
+                <strong>Home</strong>
               </NavLink>
             </li>
-            <li className="nav-item">
+            <li className="nav-item ms-2 me-2">
               <NavLink className="nav-link" aria-current="page" to="/search">
-                Search For Movies
+                <strong>Search</strong>
               </NavLink>
             </li>
             {currentUser && (
-              <li className="nav-item">
+              <li className="nav-item ms-2 me-2">
                 <NavLink className="nav-link" to="/profile">
-                  Profile
+                  <strong>Profile</strong>
                 </NavLink>
               </li>
             )}
@@ -63,9 +63,14 @@ const NavBar = () => {
             {currentUser ? (
               <>
                 <li className="nav-item d-flex align-items-center">
-                  <NavLink className="navbar-link nav-link mr-5" to="/account">
-                    {currentUser.username} {` - `}
-                    {currentUser.role}
+                  <NavLink
+                    className="navbar-link nav-link mr-5 text-info"
+                    to="/account"
+                  >
+                    <strong>
+                      {currentUser.username} {` - `}
+                      {currentUser.role}
+                    </strong>
                   </NavLink>
                   {/* <span className="navbar-text mr-3">({currentUser.role})</span> */}
                   <button
@@ -78,14 +83,14 @@ const NavBar = () => {
               </>
             ) : (
               <>
-                <li className="nav-item">
+                <li className="nav-item ms-2 me-2">
                   <NavLink className="nav-link" to="/signin">
-                    Sign In
+                    <strong>Sign In</strong>
                   </NavLink>
                 </li>
-                <li className="nav-item">
+                <li className="nav-item ms-2 me-2">
                   <NavLink className="nav-link" to="/signup">
-                    Sign Up
+                    <strong>Sign Up</strong>
                   </NavLink>
                 </li>
               </>

@@ -26,16 +26,23 @@ function Home() {
 
   const fetchMoviesLikedByUser = async (userLikes) => {
     try {
+      // Sort userLikes by createdAt in descending order
+      const sortedLikes = [...userLikes].sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+
       const moviesDetails = await Promise.all(
-        userLikes.map(async (like) => {
+        sortedLikes.map(async (like) => {
           const response = await fetch(
             `https://api.themoviedb.org/3/movie/${like.movieId}?api_key=${API}`
           );
           if (!response.ok)
             throw new Error(`HTTP error! status: ${response.status}`);
-          return response.json();
+          const movieDetail = await response.json();
+          return { ...movieDetail, createdAt: like.createdAt }; // Optionally add createdAt to movie details
         })
       );
+
       setMoviesLikedByUser(moviesDetails);
     } catch (e) {
       setError("Failed to load user's liked movies: " + e.message);
@@ -47,7 +54,9 @@ function Home() {
       const moviesThatUserLikes = await likesClient.findMoviesThatUserLikes(
         currentUser._id
       );
-      await fetchMoviesLikedByUser(moviesThatUserLikes);
+      if (moviesThatUserLikes.length > 0) {
+        await fetchMoviesLikedByUser(moviesThatUserLikes);
+      }
     } catch (e) {
       setError("Failed to fetch customized feeds: " + e.message);
     }
@@ -70,7 +79,7 @@ function Home() {
   );
 
   return (
-    <div className="container">
+    <div className="container mb-5">
       <div className="row">
         {moviesLikedByUser.length > 0 ? (
           moviesLikedByUser.map((movie) => (

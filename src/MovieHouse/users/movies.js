@@ -47,13 +47,11 @@ function Movies() {
   };
 
   useEffect(() => {
+    if (!currentUser) {
+      navigate("/signin");
+      return;
+    }
     const performFetchOperations = async () => {
-      // if (!currentUser) {
-      //   alert("Please sign in to view the movies.");
-      //   navigate("/signin");
-      //   return;
-      // }
-
       try {
         await fetchUser();
         await fetchMovies();
@@ -78,11 +76,16 @@ function Movies() {
     <div className="container">
       <div className="d-flex justify-content-between align-items-center">
         <h2>Movies ({publishedMovies.length})</h2>
-        {currentUser && currentUser.role === "DIRECTOR" && (
-          <button onClick={handlePublishClick} className="btn btn-primary">
-            Publish
-          </button>
-        )}
+        {currentUser &&
+          currentUser.role === "DIRECTOR" &&
+          currentUser._id === userId && (
+            <button
+              onClick={handlePublishClick}
+              className="btn btn-info text-white"
+            >
+              Publish
+            </button>
+          )}
       </div>
       <hr />
       <div className="row">
@@ -93,7 +96,7 @@ function Movies() {
             </div>
           ))
         ) : (
-          <h2>No movies published by this user yet.</h2>
+          <h2>No movies published by this director yet.</h2>
         )}
       </div>
     </div>

@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "./reducer";
+import "./Account.css"; // Importing the CSS file for styling
 
 function Account() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const fetchUser = async () => {
     try {
       const user = await client.account();
@@ -16,42 +18,86 @@ function Account() {
       navigate("/signin");
     }
   };
+
   const updateUser = async () => {
     const status = await client.updateUser(user._id, user);
   };
+
   const signout = async () => {
     const status = await client.signout();
     dispatch(setCurrentUser(null));
     navigate("/");
   };
+
   useEffect(() => {
     fetchUser();
   }, []);
 
   return (
-    <div className="container">
-      <h1>Account</h1>
+    <div className="account-container">
+      <h1 className="account-title">Account</h1>
+      <hr />
       {user && (
-        <div>
-          <p>Username: {user.username}</p>
-          <input
-            type="email"
-            className="form-control"
-            value={user.email}
-            onChange={(e) => setUser({ ...user, email: e.target.value })}
-          />
-          <input
-            type="text"
-            className="form-control"
-            value={user.firstName}
-            onChange={(e) => setUser({ ...user, firstName: e.target.value })}
-          />
-          <input
-            type="text"
-            className="form-control"
-            value={user.lastName}
-            onChange={(e) => setUser({ ...user, lastName: e.target.value })}
-          />
+        <div className="account-detail">
+          <p>
+            Your Username: <strong>{user.username}</strong>
+          </p>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "10px",
+            }}
+          >
+            <span style={{ marginRight: "10px", minWidth: "120px" }}>
+              <strong>Email:</strong>
+            </span>
+            <input
+              type="email"
+              className="form-input"
+              value={user.email}
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
+            />
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "10px",
+            }}
+          >
+            <span style={{ marginRight: "10px", minWidth: "120px" }}>
+              <strong>First Name:</strong>
+            </span>
+            <input
+              type="text"
+              className="form-input"
+              value={user.firstName}
+              onChange={(e) => setUser({ ...user, firstName: e.target.value })}
+              placeholder="Update your first name"
+            />
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "10px",
+            }}
+          >
+            <span style={{ marginRight: "10px", minWidth: "120px" }}>
+              <strong>Last Name:</strong>
+            </span>
+            <input
+              type="text"
+              className="form-input"
+              value={user.lastName}
+              onChange={(e) => setUser({ ...user, lastName: e.target.value })}
+              placeholder="Update your last name"
+            />
+          </div>
+
           <button onClick={updateUser} className="btn btn-primary">
             Update
           </button>
@@ -59,8 +105,8 @@ function Account() {
             Sign Out
           </button>
           {user.role === "ADMIN" && (
-            <Link to="/users" className="btn btn-warning">
-              Users
+            <Link to="/users" className="btn btn-warning float-right">
+              Manage Users
             </Link>
           )}
         </div>
