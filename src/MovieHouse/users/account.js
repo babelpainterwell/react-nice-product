@@ -4,9 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "./reducer";
 import "./Account.css"; // Importing the CSS file for styling
+import { useSelector } from "react-redux";
 
 function Account() {
   const [user, setUser] = useState(null);
+  const { currentUser } = useSelector((state) => state.userReducer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -30,6 +32,10 @@ function Account() {
   };
 
   useEffect(() => {
+    if (!currentUser) {
+      navigate("/signin");
+      return;
+    }
     fetchUser();
   }, []);
 
@@ -98,14 +104,14 @@ function Account() {
             />
           </div>
 
-          <button onClick={updateUser} className="btn btn-primary">
+          <button onClick={updateUser} className="btn btn-outline-info">
             Update
           </button>
-          <button onClick={signout} className="btn btn-danger">
+          <button onClick={signout} className="btn btn-outline-danger">
             Sign Out
           </button>
           {user.role === "ADMIN" && (
-            <Link to="/users" className="btn btn-warning float-right">
+            <Link to="/users" className="btn btn-info float-right text-white">
               Manage Users
             </Link>
           )}
