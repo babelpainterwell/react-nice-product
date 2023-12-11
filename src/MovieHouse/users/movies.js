@@ -47,10 +47,10 @@ function Movies() {
   };
 
   useEffect(() => {
-    if (!currentUser) {
-      navigate("/signin");
-      return;
-    }
+    // if (!currentUser) {
+    //   navigate("/signin");
+    //   return;
+    // }
     const performFetchOperations = async () => {
       try {
         await fetchUser();
