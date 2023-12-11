@@ -1,8 +1,12 @@
 import axios from "axios";
 
+const API_BASE = process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
+const MOVIES_API = `${API_BASE}/api/movies`;
+
 const client = axios.create({
   withCredentials: true,
-  baseURL: "http://localhost:4000/api/movies",
+  // baseURL: "http://localhost:4000/api/movies",
+  baseURL: MOVIES_API,
 });
 
 export const findAllMovies = async () => {

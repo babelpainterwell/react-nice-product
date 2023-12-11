@@ -10,17 +10,3 @@ export const findMovies = async (searchTerm) => {
   );
   return response.data.results;
 };
-
-// export const findAlbumById = async (albumId) => {
-//   const response = await axios.get(
-//     `${NAPSTER_API}/albums/${albumId}?apikey=${API_KEY}`
-//   );
-//   return response.data.albums[0];
-// };
-
-// export const findTracksByAlbumId = async (albumId) => {
-//   const response = await axios.get(
-//     `${NAPSTER_API}/albums/${albumId}/tracks?apikey=${API_KEY}`
-//   );
-//   return response.data.tracks;
-// };

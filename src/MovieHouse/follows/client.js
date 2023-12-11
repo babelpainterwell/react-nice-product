@@ -1,7 +1,13 @@
 import axios from "axios";
+
+const API_BASE = process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
+const USERS_API = `${API_BASE}/api/users`;
+
 const client = axios.create({
   withCredentials: true,
-  baseURL: "http://localhost:4000/api/users",
+  // baseURL: "http://localhost:4000/api/users",
+  // baseURL: "https://node-nice-product.onrender.com/api/users",
+  baseURL: USERS_API,
 });
 
 export const userFollowsUser = async (followed) => {
