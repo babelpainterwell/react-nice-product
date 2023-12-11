@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import MovieCard from "../MovieCard";
 import { useSelector } from "react-redux";
 import * as likesClient from "../likes/client";
+import "dotenv/config.js";
 
 function Home() {
   const API = process.env.REACT_APP_TMDB_API_KEY;

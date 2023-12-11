@@ -7,6 +7,7 @@ import * as reviewClient from "../reviews/client";
 import { GrLike } from "react-icons/gr";
 import { FaCalendarAlt, FaStar, FaLanguage } from "react-icons/fa";
 import { IoIosShareAlt } from "react-icons/io";
+import "dotenv/config.js";
 
 function MovieDetails() {
   const { currentUser } = useSelector((state) => state.userReducer);
