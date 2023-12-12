@@ -1,5 +1,5 @@
 import axios from "axios";
-import "dotenv/config.js";
+// import "dotenv/config.js";
 
 const request = axios.create({
   withCredentials: true,

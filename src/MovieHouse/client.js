@@ -1,5 +1,5 @@
 // The client file interacting with external API
-import "dotenv/config.js";
+// import "dotenv/config.js";
 
 import axios from "axios";
 export const TMDB_API = "https://api.themoviedb.org/3";
