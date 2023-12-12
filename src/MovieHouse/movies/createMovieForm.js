@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as movieClient from "./client"; // Adjust the path as necessary
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { MdFileUpload } from "react-icons/md";
 
 function CreateMovieForm() {
   const { currentUser } = useSelector((state) => state.userReducer);
@@ -53,7 +54,7 @@ function CreateMovieForm() {
 
   return (
     <form onSubmit={handleSubmit} className="container mt-4">
-      <div className="mb-3">
+      <div className="mb-4">
         <label htmlFor="original_title" className="form-label">
           Original Title
         </label>
@@ -68,7 +69,7 @@ function CreateMovieForm() {
           required
         />
       </div>
-      <div className="mb-3">
+      <div className="mb-4">
         <label htmlFor="overview" className="form-label">
           Overview
         </label>
@@ -83,7 +84,7 @@ function CreateMovieForm() {
           required
         />
       </div>
-      <div className="mb-3">
+      <div className="mb-4">
         <label htmlFor="original_language" className="form-label">
           Original Language
         </label>
@@ -104,7 +105,7 @@ function CreateMovieForm() {
           <option value="zh">Chinese (zh)</option>
         </select>
       </div>
-      <div className="mb-3">
+      <div className="mb-4">
         <label htmlFor="poster_path" className="form-label">
           Poster Path (URL)
         </label>
@@ -119,7 +120,7 @@ function CreateMovieForm() {
           disabled
         />
       </div>
-      <div className="mb-3">
+      <div className="mb-4">
         <label htmlFor="release_date" className="form-label">
           Release Date
         </label>
@@ -134,7 +135,7 @@ function CreateMovieForm() {
         />
       </div>
 
-      <div className="mb-3 form-check">
+      <div className="mb-4 form-check">
         <input
           type="checkbox"
           className="form-check-input"
@@ -147,7 +148,12 @@ function CreateMovieForm() {
           Adult Content
         </label>
       </div>
-      <button type="submit" className="btn btn-primary">
+      <button
+        type="submit"
+        className="btn btn-info text-white mt-5"
+        style={{ float: "right" }}
+      >
+        <MdFileUpload className="me-2" />
         Submit
       </button>
     </form>

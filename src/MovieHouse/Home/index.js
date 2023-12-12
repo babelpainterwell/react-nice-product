@@ -81,10 +81,14 @@ function Home() {
 
   return (
     <div className="container mb-5">
-      <div className="row">
+      <div className="row g-3">
+        {" "}
         {moviesLikedByUser.length > 0 ? (
           moviesLikedByUser.map((movie) => (
-            <div key={movie.id} className="col-md-3 mb-3">
+            <div
+              key={movie.id}
+              className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-3"
+            >
               <MovieCard movie={movie} />
             </div>
           ))
@@ -92,7 +96,10 @@ function Home() {
           <></>
         )}
         {uniqueMovies.map((movie) => (
-          <div key={movie.id} className="col-md-3 mb-3">
+          <div
+            key={movie.id}
+            className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-3"
+          >
             <MovieCard movie={movie} />
           </div>
         ))}

@@ -41,7 +41,7 @@ function Account() {
 
   return (
     <div className="account-container">
-      <h1 className="account-title">Account</h1>
+      <h1 className="account-title text-info">Account</h1>
       <hr />
       {user && (
         <div className="account-detail">

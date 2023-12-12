@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 function PublishedMovieCard({ movie }) {
   const placeholderImage = "../../placeholder.png";
@@ -39,7 +40,8 @@ function PublishedMovieCard({ movie }) {
           </p>
           <p className="card-text">
             <small className="text-muted">
-              Release Date: {movie.release_date}
+              {moment(movie.release_date).format("MMMM Do, YYYY")}
+              {/* Release Date: {movie.release_date} */}
             </small>
           </p>
         </div>

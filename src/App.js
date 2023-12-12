@@ -3,9 +3,9 @@
 import { HashRouter } from "react-router-dom";
 import { Routes, Route } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.js";
 import NavBar from "./MovieHouse/NavBar";
 import Home from "./MovieHouse/Home";
-import Profile from "./MovieHouse/Profile";
 import MovieDetails from "./MovieHouse/MovieDetails";
 import SignIn from "./MovieHouse/users/signin";
 import SignUp from "./MovieHouse/users/signup";

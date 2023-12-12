@@ -5,6 +5,7 @@ import * as movieClient from "./client";
 import { FaCalendarAlt, FaLanguage } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
+import moment from "moment";
 
 function PublishedMovieDetails() {
   const [movie, setMovie] = useState(null);
@@ -147,7 +148,9 @@ function PublishedMovieDetails() {
                     <strong>Release Date</strong>
                   </div>
                   <span className="text-end fw-bold">
-                    {movie.release_date ? movie.release_date : "N/A"}
+                    {movie.release_date
+                      ? moment(movie.release_date).format("YYYY-MM-DD")
+                      : "N/A"}
                   </span>
                 </div>
 

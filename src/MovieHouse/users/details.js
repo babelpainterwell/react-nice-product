@@ -65,6 +65,11 @@ function UserDetails() {
     //   navigate("/signin");
     //   return;
     // }
+    // once signout is triggered, currentUser will be null, and the userId will change and it will trigger the useEffect again
+    if (!userId) {
+      return;
+    }
+
     const fetchData = async () => {
       try {
         await fetchUser();

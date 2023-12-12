@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import * as client from "./client";
 import * as movieClient from "../movies/client";
 import PublishedMovieCard from "../movies/publishedMovieCard";
+import { MdPublish } from "react-icons/md";
 
 function Movies() {
   const [user, setUser] = useState(null);
@@ -83,6 +84,7 @@ function Movies() {
               onClick={handlePublishClick}
               className="btn btn-info text-white"
             >
+              <MdPublish className="ms-0 me-2" size={18} />
               Publish
             </button>
           )}
@@ -91,7 +93,10 @@ function Movies() {
       <div className="row">
         {publishedMovies.length > 0 ? (
           publishedMovies.map((movie) => (
-            <div key={movie._id} className="col-md-3 mb-3">
+            <div
+              key={movie._id}
+              className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-3"
+            >
               <PublishedMovieCard movie={movie} />
             </div>
           ))

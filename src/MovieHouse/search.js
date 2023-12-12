@@ -52,10 +52,13 @@ function Search() {
 
       {/* Results Section */}
       <h2 className="mb-3">Results</h2>
-      <div className="row">
+      <div className="row g-3">
         {results.length > 0 ? (
           results.map((movie) => (
-            <div key={movie.id} className="col-md-3 mb-4">
+            <div
+              key={movie.id}
+              className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-3"
+            >
               <MovieCard movie={movie} />
             </div>
           ))
