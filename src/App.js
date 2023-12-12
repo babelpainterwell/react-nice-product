@@ -21,7 +21,7 @@ import UserDetails from "./MovieHouse/users/details";
 import Movies from "./MovieHouse/users/movies";
 import CreateMovieForm from "./MovieHouse/movies/createMovieForm";
 import PublishedMovieDetails from "./MovieHouse/movies/details";
-import "dotenv/config.js";
+// import "dotenv/config.js";
 
 function App() {
   return (
