@@ -45,7 +45,12 @@ function SignIn() {
           backgroundColor: "white",
         }}
       >
-        <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Sign In</h2>
+        <h2
+          className="text-info"
+          style={{ textAlign: "center", marginBottom: "20px" }}
+        >
+          Sign In
+        </h2>
         {error && <div className="alert alert-danger">{error.message}</div>}
         <div style={{ marginBottom: "15px" }}>
           <input

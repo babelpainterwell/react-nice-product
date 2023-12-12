@@ -49,7 +49,9 @@ function SignUp() {
           textAlign: "center",
         }}
       >
-        <h2 style={{ marginBottom: "20px" }}>Sign Up</h2>
+        <h2 className="text-info" style={{ marginBottom: "20px" }}>
+          Sign Up
+        </h2>
         {error && <div className="alert alert-danger">{error.message}</div>}
         <input
           type="text"
